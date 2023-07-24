@@ -1,5 +1,4 @@
 def calculateInversion(hands):
-    print("hands - ", hands)
     bins = generateBins(hands)
     newBins = sumBins(bins)
     return countInversion(newBins, bins)
@@ -16,13 +15,10 @@ def generateBins(hands):
                 bins[tricks][points]+=1
             else:
                 bins[tricks][points] = 1
-    print()
-    print(bins)
     return bins
 
 def sumBins(bins):
     sumBins = []
-    print(bins)
     for bin in bins:
         keys = sorted(bin.keys())
         newBin = []
