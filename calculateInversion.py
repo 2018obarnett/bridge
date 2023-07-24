@@ -36,7 +36,7 @@ def countInversion(newBins, oldBins):
     for oldBin in oldBins:
         for key in oldBin.keys():
             for newBin in newBins[index+1:]:
-                total += binarySearch(newBin, key)
+                total += (binarySearch(newBin, key)*oldBin[key])
                 
         index+=1
     return total
