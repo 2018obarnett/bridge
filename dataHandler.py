@@ -12,7 +12,7 @@ def handToList(hand_directory, deal, trx = -1):
         [ns, nh, nd, nc] = file.readline().strip().split(' ')
         [es, eh, ed, ec, x, x, x, x, x, ws, wh, wd, wc] = file.readline().strip().split(' ')
         [ss, sh, sd, sc] = file.readline().strip().split(' ')
-    return [trx, ns, nh, nd, nc, es, eh, ed, ec, ws, wh, wd, wc, ss, sh, sd, sc]
+    return [trx, ns, nh, nd, nc, ss, sh, sd, sc, es, eh, ed, ec, ws, wh, wd, wc,]
 
 def convert_to_csv(hand_directory, output_file_path=makeOutputFilePath()):
     df = pd.DataFrame(columns=header, dtype="string")
