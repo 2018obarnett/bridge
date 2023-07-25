@@ -1,7 +1,9 @@
+import math
+
 def calculateInversion(hands):
     bins = generateBins(hands)
     newBins = sumBins(bins)
-    return countInversion(newBins, bins)
+    return round(countInversion(newBins, bins))
 
 def generateBins(hands):
     bins = []
@@ -35,8 +37,11 @@ def countInversion(newBins, oldBins):
     total = 0
     for oldBin in oldBins:
         for key in oldBin.keys():
+            diff = 1
             for newBin in newBins[index+1:]:
-                total += (binarySearch(newBin, key)*oldBin[key])
+                count = binarySearch(newBin, key)
+                total += (math.sqrt(diff))*count*oldBin[key]
+                diff+=1
                 
         index+=1
     return total

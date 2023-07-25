@@ -14,9 +14,9 @@ hands = readCSV.createArray([19,12,6,2,1.5])
 
 print("new - ",calculateInversion.calculateInversion(hands))
 
-hands = readCSV.createArray([19,12.5,6,2,1.5])
+hands = readCSV.createArray([0,0,0,0,10])
 
-print("new 2 - ",calculateInversion.calculateInversion(hands))
+print("count only 10's -  ",calculateInversion.calculateInversion(hands))
 
 
 
