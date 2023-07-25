@@ -2,7 +2,7 @@ import csv
 
 
 def createArray(weights):
-    with open('HandRecords/1000Deals1690245583.csv', newline='') as csvfile:
+    with open('HandRecords/100000Deals1690252639.csv', newline='') as csvfile:
         hands = []
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         next(spamreader)
