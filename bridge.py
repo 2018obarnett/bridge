@@ -10,9 +10,13 @@ hands = readCSV.createArray([1,2,3,4,0])
 
 print("1,2,3,4 - ",calculateInversion.calculateInversion(hands))
 
-hands = readCSV.createArray([18,12,6,1,1])
+hands = readCSV.createArray([19,12,6,2,1.5])
 
 print("new - ",calculateInversion.calculateInversion(hands))
+
+hands = readCSV.createArray([19,12.5,6,2,1.5])
+
+print("new 2 - ",calculateInversion.calculateInversion(hands))
 
 
 
