@@ -38,8 +38,7 @@ def worker():
         print(f'Finished {item}')
         q.task_done()
 
-def main():
-    args = sys.argv
+def main(args):
     if len(args) < 3:
         raise "Not enough arguments"
     repo = args[1]
@@ -92,7 +91,7 @@ def main():
 if __name__ == "__main__":
     start_time = time.time()
 
-    main()
+    main(sys.argv)
 
     end_time = time.time()
 
