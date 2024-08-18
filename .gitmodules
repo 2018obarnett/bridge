@@ -1,0 +1,3 @@
+[submodule "bridge-solver"]
+	path = bridge-solver
+	url = https://github.com/macroxue/bridge-solver.git
