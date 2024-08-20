@@ -10,11 +10,15 @@ import argparse
 # args = parser.parse_args()
 # print(args.accumulate(args.integers))
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--my-foo', default='foobar')
+    parser.add_argument('-b', '--bar-value', default=3.14)
+    args = parser.parse_args()
+    argsdict = vars(args)
+    print(argsdict['my_foo'])
+    print(argsdict['bar_value'])
+      
+if __name__ == '__main__':
+    main()
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-f', '--my-foo', default='foobar')
-parser.add_argument('-b', '--bar-value', default=3.14)
-args = parser.parse_args()
-argsdict = vars(args)
-print(argsdict['my_foo'])
-print(argsdict['bar_value'])

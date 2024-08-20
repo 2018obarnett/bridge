@@ -1,4 +1,6 @@
+import os
 import generateAndHandleData
+import calculateInversion
 
 import argparse
 import sys
@@ -114,36 +116,47 @@ def prepareDataFromCSV(csv_path):
     test_prepped = getPointsTricksDataFrame(weights, test)
     return train_prepped, test_prepped
 
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Add a description")
-    parser.add_argument('-hp', '--hand-path', default=None,
-                        help="file path to a .csv file containing hand records and tricks taken")
-    parser.add_argument('-bsp', '--bridge-solver-path', default=None,
-                        help="path to \`bridge-solver\` executable")
     parser.add_argument('-n', '--num-hands', default=1000,
                         help="number of hands to generate and solve")
+    parser.add_argument('-s', '--save', default=False,
+                        help="save the generated hands to a .csv file")
+    parser.add_argument('-l', '--load', default=False,
+                        help="load hands from a .csv file")
+    parser.add_argument('-t', '--threads', default=1,
+                        help="number of threads to use")
     args = parser.parse_args()
-    argsdict = vars(args)
-    print(argsdict['hand_path'])
-    print(argsdict['bridge_solver_path'])
-    print(argsdict['num_hands'])
-
-    if args.hand_path:
-        print(f"Using hand file found at {args.hand_path}")
+    bridge_solver = os.path.join("bridge-solver", "solver") 
+    
+    # Get the dataframe
+    df = None
+    if args.load:
+        print(f"Using hand file found at {args.load}")
+        df = generateAndHandleData.getData(args.load)
     else:
-        if not args.bridge_solver_path:
-            parser.error("-hp or -bsp and -n option should be filled")
-        else:
-            print(f"Using bridge-solver found at {args.bridge_solver_path}")
-            if not args.num_hands:
-                parser.error("-n optional required when using -bsp")
+        print(f"Generating {args.num_hands} hands to analyze")
+        df = generateAndHandleData.generateData(int(args.num_hands), bridge_solver, int(args.threads))
+        if args.save:
+            generateAndHandleData.saveData(df, args.save)
+
+    # Assign points according to weights
+    weights = {"HCP": {"A": 4.0, "K": 3.0, "Q": 2.0, "J": 1.0}, "DIST": {} }
+    generateAndHandleData.attachPoints(df, weights)
+    
+    inversions = calculateInversion.calculateInversionForDF(df)
+    print(f'Found {inversions} inversions.')
+    
+if __name__ == "__main__":
+    main()
+    pass
 
     if not args.hand_path:
         # TODO: update that file so it's not this way
-        csv_path = generateAndHandleData.main(['fp', args.bridge_solver_path, args.num_hands, 32])
+        csv_path = generateAndHandleData.main(['fp', bridge_solver, args.num_hands, 32])
     else:
         csv_path = args.hand_path
+    
 
     # csv_path = 'HandRecords/100000Deals-0.csv'
     # csv_path = 'HandRecords/1000Deals-0.csv' # comment out to use the larger set, this is faster

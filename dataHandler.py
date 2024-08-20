@@ -1,10 +1,16 @@
 import os.path
+import random
+import string
 import time
 import pandas as pd
 
 header = ['trx', 'ns', 'nh', 'nd', 'nc', 'ss', 'sh', 'sd', 'sc', 'es', 'eh', 'ed', 'ec', 'ws', 'wh', 'wd', 'wc']
-def makeOutputFilePath():
-    return os.path.join('HandRecords', 'hands' + str(time.time().__trunc__()) + '.csv')
+def makeOutputFilePath(num=None):
+    return os.path.join('HandRecords', num + 'Deals' + random_id() + '.csv')
+
+def random_id():
+    alphabet = string.ascii_lowercase + string.digits
+    return ''.join(random.choices(alphabet, k=8))
 
 def handToList(hand_directory, deal, trx = -1):
     path = os.path.join(hand_directory, deal)

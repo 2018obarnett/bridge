@@ -1,8 +1,9 @@
 import csv
+from typing import List
 
 
-def createArray(weights):
-    with open('HandRecords/100000Deals1690252639.csv', newline='') as csvfile:
+def createArray(weights:List[float]):
+    with open('HandRecords/1000Deals-1.csv', newline='') as csvfile:
         hands = []
         spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
         next(spamreader)
