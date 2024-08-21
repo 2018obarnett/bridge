@@ -1,7 +1,6 @@
 # bridge
 Statistical analysis of the card game bridge
 
-
 todo: make better faster stronger
 
 # setup
