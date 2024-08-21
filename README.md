@@ -7,7 +7,13 @@ todo: make better faster stronger
 # setup
 
 pull package
+`git submodule update --init --recursive`
 `cd bridge-solver && make && cd -`
+
+python pacakges: 
+- pandas
+- scikit-learn
+- matplotlib
 
 # example commands:
 

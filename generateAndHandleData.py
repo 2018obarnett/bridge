@@ -2,6 +2,7 @@ import sys, os, time, subprocess, re
 import pandas as pd
 import threading
 import queue
+from utility import Seat
 
 header = ['trx', 'ns', 'nh', 'nd', 'nc', 'ss', 'sh', 'sd',
           'sc', 'es', 'eh', 'ed', 'ec', 'ws', 'wh', 'wd', 'wc']
@@ -13,8 +14,15 @@ def makeOutputFilePath(num):
     return os.path.join('HandRecords', str(num) + 'Deals' + str(time.time().__trunc__()) + '.csv')
 
 def dealToList(deal):
-    [ns, nh, nd, nc, es, eh, ed, ec, ws, wh, wd, wc, ss, sh, sd, sc, trx] = deal.split()[1:34:2]
-    return [int(trx), ns, nh, nd, nc, ss, sh, sd, sc, es, eh, ed, ec, ws, wh, wd, wc]
+    tricksArray = []
+    for seat in Seat:
+        # for each person it will make a list of the tricks taken when they declare in the order No, spades, hearts, diamonds, clubs ex 10 10 4 3 5 meaning 4 tricks if they declare in hearts 
+        tricksArray.append(" ".join((deal.split()[33+seat.value:-1:9])))
+        
+    tricks = " ".join(tricksArray)
+
+    [ns, nh, nd, nc, es, eh, ed, ec, ws, wh, wd, wc, ss, sh, sd, sc] = deal.split()[1:32:2]
+    return [tricks, ns, nh, nd, nc, ss, sh, sd, sc, es, eh, ed, ec, ws, wh, wd, wc]
 
 def makeAndFillDataframe(path, num_deals, result_queue):
     start_time = time.time()
@@ -22,7 +30,7 @@ def makeAndFillDataframe(path, num_deals, result_queue):
     df = pd.DataFrame(columns=header, dtype="string")
     for _ in range(num_deals):
         result = subprocess.run(
-            [f"./{path}", "-r", "-m 2", "-t", "N"], stdout=subprocess.PIPE).stdout.decode('utf-8')
+            [f"./{path}", "-r", "-m 2"], stdout=subprocess.PIPE).stdout.decode('utf-8')
         lst = dealToList(result)
         df.loc[len(df)] = lst    
     result_queue.put(df)

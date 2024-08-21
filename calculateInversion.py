@@ -2,13 +2,13 @@ import bisect
 import math
 import time
 from typing import Dict, List
-
+from utility import Seat, Trump, getTricks
 import pandas as pd
 
 def calculateInversionForDF(df:pd.DataFrame) -> int:
     hands = []
     for _, row in df.iterrows():
-        hands.append((row['NSPoints'], row['trx']))
+        hands.append((row['NSPoints'], int(getTricks(Seat.North, Trump.No, row['trx']))))
     start_inv = time.time()
     inv = calculateInversion(hands)
     print("Inversion time: ", time.time()-start_inv)
